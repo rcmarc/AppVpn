@@ -1,6 +1,7 @@
 package com.github.rcmarc.appvpn.services;
 
-import lombok.NoArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +12,17 @@ import java.util.Properties;
 
 @Service
 @Slf4j
-@NoArgsConstructor
+@Data
+@RequiredArgsConstructor
 public class PropertiesService {
 
-    private static final String PATH = "./src/main/resources/config.properties";
+    private String PATH = "./src/main/resources/";
     private final Properties properties = new Properties();
+    private String file = "config.properties";
 
     @PostConstruct
     private void init() {
+        PATH += file;
         try (FileReader reader = new FileReader(PATH)) {
             properties.load(reader);
         } catch (IOException e) {
