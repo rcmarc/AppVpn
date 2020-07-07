@@ -1,40 +1,50 @@
 package com.github.rcmarc.appvpn.services;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
 @Service
 @Slf4j
 @Data
-@RequiredArgsConstructor
 public class PropertiesService {
 
-    private String PATH = "";
     private final Properties properties = new Properties();
-    private final String base = "./src/main/resources/";
-    private String file = "config.properties";
-
+    private final URL url = PropertiesService.class.getResource("config.properties");
+    private InputStream stream;
 
     @PostConstruct
     private void init() {
-        setPath(file);
+        try {
+            stream = url.openStream();
+            loadProperties();
+        } catch (IOException ex) {
+            log.error("Error opening file: "  + url.getPath() + ", cause: " + ex.getMessage());
+        }
     }
 
     public void setPath(String file) {
-        PATH = base + file;
-        
-        properties.clear();
-        try (FileReader reader = new FileReader(PATH)) {
-            properties.load(reader);
-        } catch (IOException e) {
-            log.error("Failed to load properties file, cause: " + e.getMessage());
+        try {
+            stream.close();
+            stream = PropertiesService.class.getResourceAsStream(file);
+            properties.clear();
+            loadProperties();
+        } catch (IOException ex) {
+            log.error("Failed to close file: ");
+        }
+    }
+
+    private void loadProperties() {
+        try {
+            properties.load(stream);
+        } catch (IOException ex) {
+            log.error("Failed to load properties file, cause: " + ex.getMessage());
         }
     }
 
@@ -71,9 +81,9 @@ public class PropertiesService {
     }
 
     public void setValue(String key, String value) {
-        try (OutputStream stream = new FileOutputStream(PATH)) {
+        try (OutputStream stream = new FileOutputStream(url.getPath())) {
             properties.setProperty(key, value);
-            properties.store(stream, "saved in: " + LocalDateTime.now());
+            properties.store(stream, "saved at: " + LocalDateTime.now());
         } catch (IOException e) {
             log.error(e.getMessage());
         }

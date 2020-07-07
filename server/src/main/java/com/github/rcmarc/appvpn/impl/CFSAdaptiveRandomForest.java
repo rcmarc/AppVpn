@@ -23,7 +23,7 @@ public class CFSAdaptiveRandomForest implements AIModel {
 
     @PostConstruct
     private void init() {
-        classifier = modelLoader.adaptiveRandomForest(AttributeSelection.CfsSubsetEval, false);
+        classifier = modelLoader.adaptiveRandomForest();
         dataset = datasetLoader.getCFSDataset();
         classifier.prepareForUse();
     }
