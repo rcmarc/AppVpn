@@ -16,13 +16,20 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class PropertiesService {
 
-    private String PATH = "./src/main/resources/";
+    private String PATH = "";
     private final Properties properties = new Properties();
+    private final String base = "./src/main/resources/";
     private String file = "config.properties";
+
 
     @PostConstruct
     private void init() {
-        PATH += file;
+        setPath(file);
+    }
+
+    public void setPath(String file) {
+        PATH = base + file;
+        properties.clear();
         try (FileReader reader = new FileReader(PATH)) {
             properties.load(reader);
         } catch (IOException e) {
@@ -71,11 +78,11 @@ public class PropertiesService {
         }
     }
 
-    private Boolean getBooleanProperty(String key){
+    private Boolean getBooleanProperty(String key) {
         return Boolean.valueOf(getProperty(key));
     }
 
-     private Long getLongProperty(String key) {
+    private Long getLongProperty(String key) {
         return Long.valueOf(getProperty(key));
     }
 

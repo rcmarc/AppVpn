@@ -18,8 +18,8 @@ public class App {
 
 	private static void initDatabaseUser() {
 		PropertiesService propertiesService = new PropertiesService();
+		propertiesService.setPath("application.properties");
 		if (propertiesService.getProperty("spring.datasource.username") == null) {
-			propertiesService.setFile("application.properties");
 			try (final Scanner in = new Scanner(System.in)) {
 				String username = username(in);
 				String password = password(in);
@@ -31,12 +31,12 @@ public class App {
 	}
 
 	private static String password(Scanner in) {
-		System.out.print("Enter password user");
-		return in.nextLine();
+		System.out.print("Enter user password: ");
+		return in.next();
 	}
 
 	private static String username(Scanner in) {
-		System.out.print("Enter database user");
-		return in.nextLine();
+		System.out.print("Enter database user: ");
+		return in.next();
 	}
 }
