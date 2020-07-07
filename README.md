@@ -11,4 +11,14 @@
 
 ## Ejecución
 
-Para ejecutar el programa es necesario tener instalado el JDK 11 o superior
+Se requiere tener instalado maven
+
+ejecutar:
+```
+    mvn package
+```
+
+luego:
+```
+    java -jar target\appvpn-0.0.1
+```
