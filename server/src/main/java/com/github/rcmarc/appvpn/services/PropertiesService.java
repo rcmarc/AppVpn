@@ -29,6 +29,7 @@ public class PropertiesService {
 
     public void setPath(String file) {
         PATH = base + file;
+        
         properties.clear();
         try (FileReader reader = new FileReader(PATH)) {
             properties.load(reader);
