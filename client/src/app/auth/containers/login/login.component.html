@@ -1,0 +1,2 @@
+<app-auth-form [newUser]="false" [serverError]="this.error" (Submit)="onSubmit($event)"></app-auth-form>
+<div class="mt-3" *ngIf="loading"><app-loader></app-loader></div>

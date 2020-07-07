@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="toolbar">
+  <mat-toolbar-row>
+    <div class="container"><a mat-flat-button color="primary" routerLink="" class="btn-active"><h2>AppVpn</h2></a></div>
+    <span class="spacer"></span>
+    <div *ngIf="IsAuthenticated()">
+      <button mat-flat-button color="primary" class="btn-active" (click)="Logout()">Log Out</button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>

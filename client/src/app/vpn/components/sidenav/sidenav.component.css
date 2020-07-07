@@ -1,0 +1,11 @@
+.btn-sidenav{
+    outline: none;
+    border: none;
+    width: 100%;
+    background-color: transparent;
+    text-align: left;
+}
+
+.sidenav{
+  height: 100%;
+}

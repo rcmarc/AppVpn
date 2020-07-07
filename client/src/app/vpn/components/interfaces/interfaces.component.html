@@ -1,0 +1,31 @@
+<div *ngIf="!this.authenticationError">
+  <div *ngIf="!devices">
+    <app-loader></app-loader>
+  </div>
+  <div *ngIf="devices">
+    <div class="container w-100 text-right">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-auto pl-5 pr-5"
+        (click)="onSave(list.selectedOptions.selected[0]?.value)"
+      >
+        Guardar
+      </button>
+    </div>
+    <mat-selection-list #list [multiple]="false">
+      <div class="container">
+        <mat-list-option *ngFor="let device of devices" [value]="device">
+          <h3 matLine>{{ device.name }}</h3>
+          <p mat-line>{{ device.description }}</p>
+          <div class="container">
+            <mat-divider [inset]="false"></mat-divider>
+          </div>
+        </mat-list-option>
+      </div>
+    </mat-selection-list>
+  </div>
+</div>
+<div *ngIf="authenticationError">
+  <app-not-authenticated-error></app-not-authenticated-error>
+</div>
