@@ -18,7 +18,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class FlowGeneratorImpl implements FlowGenerator {
 
-    private final FlowListener flowListenerLogger;
+    private final FlowListener flowListenerImpl;
     private final HashMap<String, Flow> currentFlows = new HashMap<>();
     private final PropertiesService propertiesService;
     private final FlowBuilder flowBuilder;
@@ -51,7 +51,7 @@ public class FlowGeneratorImpl implements FlowGenerator {
 
     @Override
     public FlowListener getFlowListener() {
-        return flowListenerLogger;
+        return flowListenerImpl;
     }
 
     // @PostConstruct
