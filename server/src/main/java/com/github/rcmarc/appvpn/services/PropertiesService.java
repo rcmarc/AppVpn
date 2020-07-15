@@ -3,11 +3,11 @@ package com.github.rcmarc.appvpn.services;
 import lombok.Data;
 import lombok.extern.java.Log;
 
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
@@ -17,23 +17,29 @@ import java.util.Properties;
 public class PropertiesService {
 
     private final Properties properties = new Properties();
-    private final URL url = PropertiesService.class.getResource("config.properties");
+    private String path = "config.properties";
     private InputStream stream;
 
     @PostConstruct
     private void init() {
+        stream = getStream(path);
+        loadProperties();
+    }
+
+    private InputStream getStream(String file) {
         try {
-            stream = url.openStream();
-            loadProperties();
+            FileUrlResource resource = new FileUrlResource(path);
+            return resource.getInputStream();
         } catch (IOException ex) {
-            log.severe("Error opening file: "  + url.getPath() + ", cause: " + ex.getMessage());
+            log.severe("Error reading file: " + file + ", because: " + ex.getMessage());
+            return null;
         }
     }
 
     public void setPath(String file) {
         try {
             stream.close();
-            stream = PropertiesService.class.getResourceAsStream(file);
+            stream = getStream();
             properties.clear();
             loadProperties();
         } catch (IOException ex) {
@@ -82,7 +88,7 @@ public class PropertiesService {
     }
 
     public void setValue(String key, String value) {
-        try (OutputStream stream = new FileOutputStream(url.getPath())) {
+        try (OutputStream stream = new FileOutputStream(path)) {
             properties.setProperty(key, value);
             properties.store(stream, "saved at: " + LocalDateTime.now());
         } catch (IOException e) {
