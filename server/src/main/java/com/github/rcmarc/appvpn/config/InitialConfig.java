@@ -1,17 +1,18 @@
 package com.github.rcmarc.appvpn.config;
+
 import com.github.rcmarc.appvpn.repositories.AdminRepository;
 import com.github.rcmarc.appvpn.services.AdminService;
 import com.github.rcmarc.appvpn.services.DeviceService;
 import com.github.rcmarc.appvpn.services.PropertiesService;
 import com.github.rcmarc.appvpn.services.VpnService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import org.jnetpcap.PcapIf;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
+@Log
 @AllArgsConstructor
 public class InitialConfig implements InitializingBean {
     private final AdminRepository adminRepository;
@@ -33,7 +34,7 @@ public class InitialConfig implements InitializingBean {
 
         // If no device selected, do nothing
         if (deviceSelected == null || deviceSelected == -1) {
-            log.warn("There is not interface selected");
+            log.warning("There is not interface selected");
             return;
         }
 
@@ -50,13 +51,13 @@ public class InitialConfig implements InitializingBean {
     private Long getSelectedDeviceProperty() {
         String str = propertiesService.getProperty("devices.selected");
         if (str == null) {
-            log.error("Error reading device selected property");
+            log.severe("Error reading device selected property");
             return null;
         }
         try {
             return Long.valueOf(str);
         } catch (NumberFormatException ex) {
-            log.error("device selected property is not a number");
+            log.severe("device selected property is not a number");
             return null;
         }
     }

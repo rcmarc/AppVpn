@@ -1,7 +1,8 @@
 package com.github.rcmarc.appvpn.services;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Properties;
 
 @Service
-@Slf4j
+@Log
 @Data
 public class PropertiesService {
 
@@ -25,7 +26,7 @@ public class PropertiesService {
             stream = url.openStream();
             loadProperties();
         } catch (IOException ex) {
-            log.error("Error opening file: "  + url.getPath() + ", cause: " + ex.getMessage());
+            log.severe("Error opening file: "  + url.getPath() + ", cause: " + ex.getMessage());
         }
     }
 
@@ -36,7 +37,7 @@ public class PropertiesService {
             properties.clear();
             loadProperties();
         } catch (IOException ex) {
-            log.error("Failed to close file: ");
+            log.severe("Failed to close file: ");
         }
     }
 
@@ -44,7 +45,7 @@ public class PropertiesService {
         try {
             properties.load(stream);
         } catch (IOException ex) {
-            log.error("Failed to load properties file, cause: " + ex.getMessage());
+            log.severe("Failed to load properties file, cause: " + ex.getMessage());
         }
     }
 
@@ -85,7 +86,7 @@ public class PropertiesService {
             properties.setProperty(key, value);
             properties.store(stream, "saved at: " + LocalDateTime.now());
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.severe(e.getMessage());
         }
     }
 

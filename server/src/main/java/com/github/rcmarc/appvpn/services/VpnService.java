@@ -2,7 +2,7 @@ package com.github.rcmarc.appvpn.services;
 
 import com.github.rcmarc.appvpn.interfaces.PacketHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.PcapPacketHandler;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log
 public class VpnService {
 
     private final PacketHandler packetHandler;
@@ -33,11 +33,11 @@ public class VpnService {
         }
         pcap = getPcap(name, buffer);
         if (pcap == null) {
-            log.error(buffer.toString());
+            log.severe(buffer.toString());
             return;
         }
         if (buffer.length() > 0) {
-            log.warn(buffer.toString());
+            log.warning(buffer.toString());
         }
         log.info("Listening on interface: " + name);
         PcapPacketHandler<Void> handler = (packet, uVoid) -> packetHandler.accept(packet);

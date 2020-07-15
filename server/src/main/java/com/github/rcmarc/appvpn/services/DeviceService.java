@@ -4,7 +4,7 @@ import com.github.rcmarc.appvpn.data.Device;
 import com.github.rcmarc.appvpn.error.VpnException;
 import com.github.rcmarc.appvpn.mapper.DevicePcapIfMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
@@ -18,7 +18,7 @@ import java.util.stream.LongStream;
 
 @Service
 @AllArgsConstructor
-@Slf4j
+@Log
 public class DeviceService {
 
     private final DevicePcapIfMapper devicePcapIfMapper;
